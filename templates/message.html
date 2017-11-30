@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Welcome</title>
+</head>
+<body>
+    <h1>Logged in!</h1>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {%for i in messages:%}
+            <p>{{i}}</p>
+            {%endfor%}
+        {%endif%}
+    {%endwith%}
+    <h3>Post a message</h3>
+    <form action="/process2" method="post">
+        <input type="hidden" name="action" value="message">
+        <textarea name="message" id = "message" cols="180" rows="8"></textarea>
+        <br>
+        <input type="submit" name="go" value="Post a message">
+    </form>
+    {% for m in messages: %}
+    <tr>
+        <h3>{{ m['first_name']}}</h3>
+            {{ m['message'] }}
+    
+            {%for i in comments:%}
+                {%if i['id'] == m['id']%}
+                <h4>{{i['first_name']}}</h4>
+                    <p> -->{{i["comment"]}}</p>
+                {%endif%}
+            {%endfor%}
+            <br>
+
+        <form action="/process2" method="post">
+            <input type="hidden" name="action" value="{{m['id']}}">
+            <textarea name="comment" id = "comment" cols="180" rows="4"></textarea>
+            <br>
+            <input type="submit" name="go" value="Leave a comment">
+        </form>
+    </tr>
+{% endfor %}
+</body>
+</html>
